@@ -1,6 +1,6 @@
 ###############Combine CSVs#################################
- $FileA = Import-Csv -path C:\Users\Jakub\Documents\FileA.csv
- $FileB = Import-Csv -path C:\Users\Jakub\Documents\FileB.csv
+ $FileA = Import-Csv -path C:\Users\sk1113\Documents\FileA.csv
+ $FileB = Import-Csv -path C:\Users\sk1113\Documents\FileB.csv
  $CombinedFileAB = @()
  Foreach ($User_id in $FileA){
     $FileAB = [PSCustomObject] @{
@@ -19,14 +19,14 @@
  $Token = '?api_token=zziNT81wShznajW2BD5eLA4VCkmNJ88Guye7Sw4D'
  $AID = 'o1sRRZSLlw'
  ##############Get All AID Users################################
- $UserListJSON = Invoke-WebRequest -Uri "$Uri$GetUserListUri$Token'&AID:'$AID'&Offset:0'" -usebasicparsing -Method Get
+ $UserListJSON = Invoke-WebRequest -Uri "$Uri$GetUserListUri$Token'&AID:'$AID'&Offset:0'" -UseBasicParsing -Method Get
  $UserList = ($UserListJSON.Content | ConvertFrom-Json).result
  ##############Create Outfile###################################
  $OutFile = @()
  ##############Check if User exists in AID######################
  foreach ($User_id_old in $CombinedFileAB){
-    $User_id_new = ($UserList | Where-Object {$_.User_id -eq $User_id.User_id} | Select-Object -expandproperty User_id;
-    If ($User_id.User_id -eq $User){
+    $User_id_new = ($UserList | Where-Object {$_.User_id -eq $User_id.User_id} | Select-Object -ExpandProperty User_id;
+    If ($User_id.User_id -eq $User_id_new){
         $Out [PSCustomObject] @{
             User_id = $User_id_old;
             email = $CombinedFileAB.email;
@@ -44,4 +44,4 @@
         }
      $Outfile +=$Out
 }
-Export-csv $outfile -path  C:\Users\Jakub\Documents\FileC.csv
+Export-csv $outfile -path  C:\Users\sk1113\Documents\FileC.csv
